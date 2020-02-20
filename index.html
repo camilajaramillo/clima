@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clima</title>
+    <style>
+        form{
+            width:800px;
+            height: 100px;
+            border-radius: 12px;
+            background-color: aqua;
+            text-align: center;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+             $('#btn').click(function(){
+                $("form").submit(function(){
+                    var respuesta=$("#ciudad").val();
+                    $.get("http://api.openweathermap.org/data/2.5/weather?q="+respuesta+"&&appid=a1d149dacdfc34b225639a9cc971e15e",function(res){
+                        var tempmin="";
+                        tempmin +="<h2>Temperatura Minima</h2>";
+                        tempmin += "<h3>"+res.main.temp_min+"°K</h3>";
+                        $("#tempmin").html("<div>"+tempmin+"</div>");
+                        
+                        var tempmax="";
+                        tempmax +="<h2>Temperatura Máxima</h2>";
+                        tempmax += "<h3>"+res.main.temp_max+"°K</h3>";
+                        $("#tempmax").html("<div>"+tempmax+"</div>");
+
+                        var tempact="";
+                        tempact +="<h2>Temperatura Actual</h2>";
+                        tempact += "<h3>"+res.main.temp+"°K</h3>";
+                        $("#tempact").html("<div>"+tempact+"</div>");
+                    }, "json");
+                    return false;
+                    });
+                 });
+             });
+    </script>
+
+</head>
+<body>
+    <form>
+        <h1>Ingresar ciudad</h1>
+        <input id="ciudad" type="text">
+        <input id="btn" type="submit" value="consultar">
+    </form>
+    <div id="tempmin"></div>
+    <div id="tempmax"></div>
+    <div id="tempact"></div>
+    
+</body>
+</html>
